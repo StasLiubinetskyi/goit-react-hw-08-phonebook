@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { addContact } from '../redux/contactsSlice';
+import { updateUserInfo } from '../redux/authActions';
 
-const ContactForm = () => {
+const UserProfileForm = () => {
   const dispatch = useDispatch();
   const [formData, setFormData] = useState({
     name: '',
-    number: '',
+    email: '',
+    password: '',
   });
 
   const handleChange = e => {
@@ -16,7 +17,7 @@ const ContactForm = () => {
 
   const handleSubmit = e => {
     e.preventDefault();
-    dispatch(addContact(formData));
+    dispatch(updateUserInfo(formData));
     // Очистити форму або перенаправити користувача
   };
 
@@ -31,16 +32,24 @@ const ContactForm = () => {
         required
       />
       <input
-        type="text"
-        name="number"
-        placeholder="Phone Number"
-        value={formData.number}
+        type="email"
+        name="email"
+        placeholder="Email"
+        value={formData.email}
         onChange={handleChange}
         required
       />
-      <button type="submit">Add Contact</button>
+      <input
+        type="password"
+        name="password"
+        placeholder="Password"
+        value={formData.password}
+        onChange={handleChange}
+        required
+      />
+      <button type="submit">Update Profile</button>
     </form>
   );
 };
 
-export default ContactForm;
+export default UserProfileForm;

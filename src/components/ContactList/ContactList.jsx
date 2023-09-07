@@ -1,36 +1,24 @@
 import React from 'react';
-import ContactListStyled from './ContactListStyled';
-import { useDispatch, useSelector } from 'react-redux';
-import { deleteContactAsync } from '../../redux/contactsSlice';
-import { selectFilter, selectContacts } from '../../redux/selectors';
-import { nanoid } from 'nanoid';
+import { useSelector, useDispatch } from 'react-redux';
+import { deleteContact } from '../redux/contactsSlice';
 
 const ContactList = () => {
-  const contacts = useSelector(selectContacts);
-  const filter = useSelector(selectFilter);
+  const contacts = useSelector(state => state.contacts.items);
   const dispatch = useDispatch();
 
   const handleDelete = contactId => {
-    dispatch(deleteContactAsync(contactId));
+    dispatch(deleteContact(contactId));
   };
 
   return (
-    <ContactListStyled>
-      <ul>
-        {contacts
-          .filter(contact =>
-            contact.name.toLowerCase().includes(filter.toLowerCase())
-          )
-          .map(({ id, name, number }) => (
-            <li key={nanoid()}>
-              {name}: {number}
-              <button type="button" onClick={() => handleDelete(id)}>
-                Delete
-              </button>
-            </li>
-          ))}
-      </ul>
-    </ContactListStyled>
+    <ul>
+      {contacts.map(contact => (
+        <li key={contact.id}>
+          {contact.name}: {contact.number}
+          <button onClick={() => handleDelete(contact.id)}>Delete</button>
+        </li>
+      ))}
+    </ul>
   );
 };
 

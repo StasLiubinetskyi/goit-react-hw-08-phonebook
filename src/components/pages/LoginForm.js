@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { addContact } from '../redux/contactsSlice';
+import { loginUser } from '../redux/authActions';
 
-const ContactForm = () => {
+const LoginForm = () => {
   const dispatch = useDispatch();
   const [formData, setFormData] = useState({
-    name: '',
-    number: '',
+    email: '',
+    password: '',
   });
 
   const handleChange = e => {
@@ -16,31 +16,31 @@ const ContactForm = () => {
 
   const handleSubmit = e => {
     e.preventDefault();
-    dispatch(addContact(formData));
+    dispatch(loginUser(formData));
     // Очистити форму або перенаправити користувача
   };
 
   return (
     <form onSubmit={handleSubmit}>
       <input
-        type="text"
-        name="name"
-        placeholder="Name"
-        value={formData.name}
+        type="email"
+        name="email"
+        placeholder="Email"
+        value={formData.email}
         onChange={handleChange}
         required
       />
       <input
-        type="text"
-        name="number"
-        placeholder="Phone Number"
-        value={formData.number}
+        type="password"
+        name="password"
+        placeholder="Password"
+        value={formData.password}
         onChange={handleChange}
         required
       />
-      <button type="submit">Add Contact</button>
+      <button type="submit">Login</button>
     </form>
   );
 };
 
-export default ContactForm;
+export default LoginForm;
