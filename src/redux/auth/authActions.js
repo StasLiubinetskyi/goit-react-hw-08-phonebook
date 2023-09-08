@@ -1,9 +1,8 @@
+// authActions.js
 import { setUser, setToken, clearUser } from './authSlice';
 
-// Дія для реєстрації користувача
 export const registerUser = userData => async dispatch => {
   try {
-    // Відправляємо запит на сервер для реєстрації
     const response = await fetch(
       'https://connections-api.herokuapp.com/users/signup',
       {
@@ -17,12 +16,10 @@ export const registerUser = userData => async dispatch => {
 
     if (response.ok) {
       const data = await response.json();
-      // Зберігаємо дані користувача та токен у Redux store
+
       dispatch(setUser(data.user));
       dispatch(setToken(data.token));
     } else {
-      // Обробка помилок реєстрації
-      // Наприклад, виведення повідомлення про помилку
       console.error('Registration failed');
     }
   } catch (error) {
@@ -30,10 +27,8 @@ export const registerUser = userData => async dispatch => {
   }
 };
 
-// Дія для логіну користувача
 export const loginUser = userData => async dispatch => {
   try {
-    // Відправляємо запит на сервер для логіна
     const response = await fetch(
       'https://connections-api.herokuapp.com/users/login',
       {
@@ -47,12 +42,10 @@ export const loginUser = userData => async dispatch => {
 
     if (response.ok) {
       const data = await response.json();
-      // Зберігаємо дані користувача та токен у Redux store
+
       dispatch(setUser(data.user));
       dispatch(setToken(data.token));
     } else {
-      // Обробка помилок логіна
-      // Наприклад, виведення повідомлення про помилку
       console.error('Login failed');
     }
   } catch (error) {
@@ -60,8 +53,35 @@ export const loginUser = userData => async dispatch => {
   }
 };
 
-// Дія для логауту користувача
 export const logoutUser = () => dispatch => {
-  // Очищаємо дані користувача та токену у Redux store
   dispatch(clearUser());
+};
+
+export const updateUserInfo = userData => async dispatch => {
+  // Ось додайте код для оновлення інформації про користувача на сервері
+  try {
+    const response = await fetch(
+      'https://connections-api.herokuapp.com/users/update',
+      {
+        method: 'PUT', // Або метод, який ви використовуєте для оновлення інформації користувача на сервері
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(userData),
+      }
+    );
+
+    if (response.ok) {
+      const data = await response.json();
+
+      // Оновити інформацію про користувача у вашому сторі
+      dispatch(setUser(data.user));
+      // Можливо, вам потрібно також оновити токен, якщо він змінився
+      // dispatch(setToken(data.token));
+    } else {
+      console.error('Update failed');
+    }
+  } catch (error) {
+    console.error('Update error:', error);
+  }
 };

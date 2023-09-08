@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { registerUser } from '../redux/authActions';
+import { updateUserInfo } from '../redux/auth/authActions';
 
-const RegistrationForm = () => {
+const UserProfileForm = () => {
   const dispatch = useDispatch();
   const [formData, setFormData] = useState({
     name: '',
@@ -17,8 +17,7 @@ const RegistrationForm = () => {
 
   const handleSubmit = e => {
     e.preventDefault();
-    dispatch(registerUser(formData));
-    // Очистити форму або перенаправити користувача
+    dispatch(updateUserInfo(formData));
   };
 
   return (
@@ -47,9 +46,9 @@ const RegistrationForm = () => {
         onChange={handleChange}
         required
       />
-      <button type="submit">Register</button>
+      <button type="submit">Update Profile</button>
     </form>
   );
 };
 
-export default RegistrationForm;
+export default UserProfileForm;

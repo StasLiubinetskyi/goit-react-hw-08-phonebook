@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { addContact } from '../redux/contactsSlice';
+import { addContact } from '../../redux/contacts/contactsSlice';
 
 const ContactForm = () => {
   const dispatch = useDispatch();
@@ -17,7 +17,6 @@ const ContactForm = () => {
   const handleSubmit = e => {
     e.preventDefault();
     dispatch(addContact(formData));
-    // Очистити форму або перенаправити користувача
   };
 
   return (

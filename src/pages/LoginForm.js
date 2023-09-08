@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { loginUser } from '../redux/authActions';
+import { loginUser } from '../redux/auth/authActions';
 
 const LoginForm = () => {
   const dispatch = useDispatch();
@@ -17,7 +17,6 @@ const LoginForm = () => {
   const handleSubmit = e => {
     e.preventDefault();
     dispatch(loginUser(formData));
-    // Очистити форму або перенаправити користувача
   };
 
   return (
