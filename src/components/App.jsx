@@ -1,24 +1,23 @@
 import React from 'react';
-import { Routes, Route, BrowserRouter as Router } from 'react-router-dom';
-import Layout from './Layout/Layout';
+import { Routes, Route } from 'react-router-dom';
+import Home from 'pages/Home';
 import ContactList from './ContactList/ContactList';
 import LoginForm from '../pages/LoginForm';
-import UserProfileForm from '../pages/UserProfileForm';
 import RegistrationForm from '../pages/RegistrationForm';
+import Navigation from './Navigation/Navigation';
 
 const App = () => {
   return (
-    <Router>
-      <Layout>
-        <Routes>
-          <Route path="/" element={<LoginForm />} />
-          <Route path="/register" element={<RegistrationForm />} />
-          <Route path="/profile" element={<UserProfileForm />} />
-          <Route path="/contacts" element={<ContactList />} />
-          <Route path="/login" element={<UserProfileForm />} />
-        </Routes>
-      </Layout>
-    </Router>
+    <>
+      <Navigation />
+      <Routes>
+        <Route path="/" element={<Home />} /> {/* Головна сторінка */}
+        <Route path="/register" element={<RegistrationForm />} />{' '}
+        {/* Реєстрація */}
+        <Route path="/login" element={<LoginForm />} /> {/* Логін */}
+        <Route path="/contacts" element={<ContactList />} /> {/* Контакти */}
+      </Routes>
+    </>
   );
 };
 

@@ -58,12 +58,12 @@ export const logoutUser = () => dispatch => {
 };
 
 export const updateUserInfo = userData => async dispatch => {
-  // Ось додайте код для оновлення інформації про користувача на сервері
+  
   try {
     const response = await fetch(
       'https://connections-api.herokuapp.com/users/update',
       {
-        method: 'PUT', // Або метод, який ви використовуєте для оновлення інформації користувача на сервері
+        method: 'PUT', 
         headers: {
           'Content-Type': 'application/json',
         },
@@ -74,10 +74,9 @@ export const updateUserInfo = userData => async dispatch => {
     if (response.ok) {
       const data = await response.json();
 
-      // Оновити інформацію про користувача у вашому сторі
+      
       dispatch(setUser(data.user));
-      // Можливо, вам потрібно також оновити токен, якщо він змінився
-      // dispatch(setToken(data.token));
+      
     } else {
       console.error('Update failed');
     }
