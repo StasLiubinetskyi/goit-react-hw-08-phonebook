@@ -2,8 +2,8 @@ import React from 'react';
 import { Route, Navigate } from 'react-router-dom';
 
 import Home from '../pages/Home';
-import About from '../pagesAbout';
-import Contact from '../pagesContact';
+import About from '../pages/About';
+import Contact from '../pages/Contact';
 
 const Routes = () => {
   return (
