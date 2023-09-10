@@ -13,13 +13,13 @@ export const registerUser = userData => async dispatch => {
       }
     );
 
-    if (response.ok) {
-      const data = await response.json();
+    const data = await response.json();
 
+    if (response.ok) {
       dispatch(setUser(data.user));
       dispatch(setToken(data.token));
     } else {
-      console.error('Registration failed');
+      console.error('Registration failed:', data);
     }
   } catch (error) {
     console.error('Registration error:', error);
@@ -39,13 +39,13 @@ export const loginUser = userData => async dispatch => {
       }
     );
 
-    if (response.ok) {
-      const data = await response.json();
+    const data = await response.json();
 
+    if (response.ok) {
       dispatch(setUser(data.user));
       dispatch(setToken(data.token));
     } else {
-      console.error('Login failed');
+      console.error('Login failed:', data);
     }
   } catch (error) {
     console.error('Login error:', error);
@@ -64,18 +64,18 @@ export const updateUserInfo = userData => async dispatch => {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${userData.token}`, // Assuming you have a token in your userData
+          Authorization: `Bearer ${userData.token}`,
         },
         body: JSON.stringify({ name: userData.name, email: userData.email }),
       }
     );
 
-    if (response.ok) {
-      const data = await response.json();
+    const data = await response.json();
 
+    if (response.ok) {
       dispatch(setUser(data.user));
     } else {
-      console.error('Update failed');
+      console.error('Update failed:', data);
     }
   } catch (error) {
     console.error('Update error:', error);
