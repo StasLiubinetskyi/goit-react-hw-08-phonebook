@@ -1,9 +1,9 @@
 import React from 'react';
 import { Route, Navigate } from 'react-router-dom';
 
-import Home from './Home';
-import About from './About';
-import Contact from './Contact';
+import Home from '../pages/Home';
+import About from '../pagesAbout';
+import Contact from '../pagesContact';
 
 const Routes = () => {
   return (

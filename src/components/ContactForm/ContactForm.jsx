@@ -17,6 +17,7 @@ const ContactForm = () => {
   const handleSubmit = e => {
     e.preventDefault();
     dispatch(addContact(formData));
+    setFormData({ name: '', number: '' }); 
   };
 
   return (

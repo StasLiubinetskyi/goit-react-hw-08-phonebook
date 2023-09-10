@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { updateUserInfo } from '../redux/auth/authActions';
+import { selectUser } from '../redux/selectors';
 
 const UserProfileForm = () => {
   const dispatch = useDispatch();
+  const user = useSelector(selectUser);
+
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
+    name: user.name || '',
+    email: user.email || '',
     password: '',
   });
 
