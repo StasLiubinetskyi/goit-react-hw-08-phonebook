@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { loginUser } from '../redux/auth/authActions';
+import axios from 'axios';
 
 const LoginForm = () => {
   const dispatch = useDispatch();
@@ -14,9 +15,33 @@ const LoginForm = () => {
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = e => {
+  const handleSubmit = async e => {
     e.preventDefault();
-    dispatch(loginUser(formData));
+    try {
+      const response = await axios.post(
+        'https://connections-api.herokuapp.com/users/login',
+        formData,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+
+      const data = response.data;
+
+      if (response.status === 200) {
+        dispatch(loginUser(data));
+      } else {
+        if (data.message) {
+          console.error('Login failed:', data.message);
+        } else {
+          console.error('Login failed:', data);
+        }
+      }
+    } catch (error) {
+      console.error('Login error:', error);
+    }
   };
 
   return (

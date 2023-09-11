@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateUserInfo } from '../redux/auth/authActions';
 import { selectUser } from '../redux/selectors';
+import axios from 'axios';
 
 const UserProfileForm = () => {
   const dispatch = useDispatch();
@@ -18,9 +19,37 @@ const UserProfileForm = () => {
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = e => {
+  const handleSubmit = async e => {
     e.preventDefault();
-    dispatch(updateUserInfo(formData));
+    try {
+      const response = await axios.put(
+        'https://connections-api.herokuapp.com/users/current',
+        {
+          name: formData.name,
+          email: formData.email,
+        },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${user.token}`,
+          },
+        }
+      );
+
+      const data = response.data;
+
+      if (response.status === 200) {
+        dispatch(updateUserInfo(data));
+      } else {
+        if (data.message) {
+          console.error('Update failed:', data.message);
+        } else {
+          console.error('Update failed:', data);
+        }
+      }
+    } catch (error) {
+      console.error('Update error:', error);
+    }
   };
 
   return (

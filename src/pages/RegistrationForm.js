@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { registerUser } from '../redux/auth/authActions';
+import axios from 'axios';
 
 const RegistrationForm = () => {
   const dispatch = useDispatch();
+
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -15,9 +17,33 @@ const RegistrationForm = () => {
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = e => {
+  const handleSubmit = async e => {
     e.preventDefault();
-    dispatch(registerUser(formData));
+    try {
+      const response = await axios.post(
+        'https://connections-api.herokuapp.com/users/signup',
+        formData,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+
+      const data = response.data;
+
+      if (response.status === 201) {
+        dispatch(registerUser(data));
+      } else {
+        if (data.message) {
+          console.error('Registration failed:', data.message);
+        } else {
+          console.error('Registration failed:', data);
+        }
+      }
+    } catch (error) {
+      console.error('Registration error:', error);
+    }
   };
 
   return (

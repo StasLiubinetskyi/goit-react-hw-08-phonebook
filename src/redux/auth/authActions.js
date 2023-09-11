@@ -1,54 +1,43 @@
+import axios from 'axios';
 import { setUser, setToken, clearUser } from './authSlice';
+
+const API_URL = 'https://connections-api.herokuapp.com';
 
 export const registerUser = userData => async dispatch => {
   try {
-    const response = await fetch(
-      'https://connections-api.herokuapp.com/users/signup',
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(userData),
-      }
-    );
+    const response = await axios.post(`${API_URL}/users/signup`, userData);
 
-    const data = await response.json();
-
-    if (response.ok) {
-      dispatch(setUser(data.user));
-      dispatch(setToken(data.token));
+    if (response.status === 201) {
+      const { user, token } = response.data;
+      dispatch(setUser(user));
+      dispatch(setToken(token));
     } else {
-      console.error('Registration failed:', data);
+      console.error(
+        'Registration failed:',
+        response.data.message || response.statusText
+      );
     }
   } catch (error) {
-    console.error('Registration error:', error);
+    console.error('Registration error:', error.message);
   }
 };
 
 export const loginUser = userData => async dispatch => {
   try {
-    const response = await fetch(
-      'https://connections-api.herokuapp.com/users/login',
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(userData),
-      }
-    );
+    const response = await axios.post(`${API_URL}/users/login`, userData);
 
-    const data = await response.json();
-
-    if (response.ok) {
-      dispatch(setUser(data.user));
-      dispatch(setToken(data.token));
+    if (response.status === 200) {
+      const { user, token } = response.data;
+      dispatch(setUser(user));
+      dispatch(setToken(token));
     } else {
-      console.error('Login failed:', data);
+      console.error(
+        'Login failed:',
+        response.data.message || response.statusText
+      );
     }
   } catch (error) {
-    console.error('Login error:', error);
+    console.error('Login error:', error.message);
   }
 };
 
@@ -58,26 +47,22 @@ export const logoutUser = () => dispatch => {
 
 export const updateUserInfo = userData => async dispatch => {
   try {
-    const response = await fetch(
-      'https://connections-api.herokuapp.com/users/current',
-      {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${userData.token}`,
-        },
-        body: JSON.stringify({ name: userData.name, email: userData.email }),
-      }
-    );
+    const response = await axios.put(`${API_URL}/users/current`, userData, {
+      headers: {
+        Authorization: `Bearer ${userData.token}`,
+      },
+    });
 
-    const data = await response.json();
-
-    if (response.ok) {
-      dispatch(setUser(data.user));
+    if (response.status === 200) {
+      const { user } = response.data;
+      dispatch(setUser(user));
     } else {
-      console.error('Update failed:', data);
+      console.error(
+        'Update failed:',
+        response.data.message || response.statusText
+      );
     }
   } catch (error) {
-    console.error('Update error:', error);
+    console.error('Update error:', error.message);
   }
 };

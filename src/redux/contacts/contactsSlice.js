@@ -4,24 +4,25 @@ const contactsSlice = createSlice({
   name: 'contacts',
   initialState: {
     items: [],
-    isLoading: false,
-    error: null,
   },
   reducers: {
-    setContacts: (state, action) => {
-      state.items = action.payload;
-    },
     addContact: (state, action) => {
       state.items.push(action.payload);
     },
+    editContact: (state, action) => {
+      const { id, updatedContact } = action.payload;
+      const contactIndex = state.items.findIndex(contact => contact.id === id);
+      if (contactIndex !== -1) {
+        state.items[contactIndex] = updatedContact;
+      }
+    },
     deleteContact: (state, action) => {
-      state.items = state.items.filter(
-        contact => contact.id !== action.payload
-      );
+      const { id } = action.payload;
+      state.items = state.items.filter(contact => contact.id !== id);
     },
   },
 });
 
-export const { setContacts, addContact, deleteContact } = contactsSlice.actions;
+export const { addContact, editContact, deleteContact } = contactsSlice.actions;
 
 export default contactsSlice.reducer;

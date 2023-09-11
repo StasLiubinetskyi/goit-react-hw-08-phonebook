@@ -11,14 +11,17 @@ const ContactList = () => {
   };
 
   return (
-    <ul>
-      {contacts.map(contact => (
-        <li key={contact.id}>
-          {contact.name}: {contact.number}
-          <button onClick={() => handleDelete(contact.id)}>Delete</button>
-        </li>
-      ))}
-    </ul>
+    <div>
+      <h1>Contact List</h1>
+      <ul>
+        {contacts.map(contact => (
+          <li key={contact.id}>
+            {contact.name}: {contact.number}
+            <button onClick={() => handleDelete(contact.id)}>Delete</button>
+          </li>
+        ))}
+      </ul>
+    </div>
   );
 };
 
