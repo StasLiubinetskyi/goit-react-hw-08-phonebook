@@ -1,13 +1,13 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { deleteContact } from '../../redux/contacts/contactsSlice';
+import { deleteTask } from '../../redux/tasks/tasksActions';
 
 const ContactList = () => {
   const contacts = useSelector(state => state.contacts.items);
   const dispatch = useDispatch();
 
   const handleDelete = contactId => {
-    dispatch(deleteContact(contactId));
+    dispatch(deleteTask(contactId));
   };
 
   return (

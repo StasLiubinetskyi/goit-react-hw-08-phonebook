@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { addContact } from '../../redux/contacts/contactsSlice';
+import { registerUser } from '../../redux/tasks/tasksSlice';
 
 const ContactForm = () => {
   const dispatch = useDispatch();
@@ -16,7 +16,7 @@ const ContactForm = () => {
 
   const handleSubmit = e => {
     e.preventDefault();
-    dispatch(addContact(formData));
+    dispatch(registerUser(formData));
     setFormData({ name: '', number: '' });
   };
 

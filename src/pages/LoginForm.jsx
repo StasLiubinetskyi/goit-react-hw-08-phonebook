@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { loginUser } from '../redux/auth/authActions';
+import { logIn } from '../redux/auth/authActions';
 import axios from 'axios';
 
 const LoginForm = () => {
@@ -31,7 +31,7 @@ const LoginForm = () => {
       const data = response.data;
 
       if (response.status === 200) {
-        dispatch(loginUser(data));
+        dispatch(logIn(data));
       } else {
         if (data.message) {
           console.error('Login failed:', data.message);
