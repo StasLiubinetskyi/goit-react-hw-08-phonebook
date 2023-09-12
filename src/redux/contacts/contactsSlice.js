@@ -1,28 +1,35 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-const contactsSlice = createSlice({
-  name: 'contacts',
-  initialState: {
-    items: [],
-  },
+const initialState = {
+  user: null,
+  isLoggedIn: false,
+  isRefreshing: false,
+};
+
+const authSlice = createSlice({
+  name: 'auth',
+  initialState,
   reducers: {
-    addContact: (state, action) => {
-      state.items.push(action.payload);
+    setUser: (state, action) => {
+      state.user = action.payload;
+      state.isLoggedIn = true;
+      state.isRefreshing = false;
     },
-    editContact: (state, action) => {
-      const { id, updatedContact } = action.payload;
-      const contactIndex = state.items.findIndex(contact => contact.id === id);
-      if (contactIndex !== -1) {
-        state.items[contactIndex] = updatedContact;
-      }
+    clearUser: state => {
+      state.user = null;
+      state.isLoggedIn = false;
+      state.isRefreshing = false;
     },
-    deleteContact: (state, action) => {
-      const { id } = action.payload;
-      state.items = state.items.filter(contact => contact.id !== id);
+    setRefreshing: state => {
+      state.isRefreshing = true;
+    },
+    clearRefreshing: state => {
+      state.isRefreshing = false;
     },
   },
 });
 
-export const { addContact, editContact, deleteContact } = contactsSlice.actions;
+export const { setUser, clearUser, setRefreshing, clearRefreshing } =
+  authSlice.actions;
 
-export default contactsSlice.reducer;
+export default authSlice.reducer;

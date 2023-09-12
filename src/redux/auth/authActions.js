@@ -1,68 +1,77 @@
 import axios from 'axios';
-import { setUser, setToken, clearUser } from './authSlice';
+import { createAsyncThunk } from '@reduxjs/toolkit';
 
-const API_URL = 'https://connections-api.herokuapp.com';
+const BASE_URL = 'https://connections-api.herokuapp.com/';
 
-export const registerUser = userData => async dispatch => {
-  try {
-    const response = await axios.post(`${API_URL}/users/signup`, userData);
+export const registerUser = createAsyncThunk(
+  'auth/register',
+  async (userData, { rejectWithValue }) => {
+    try {
+      const response = await axios.post(`${BASE_URL}/users/signup`, userData, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
 
-    if (response.status === 201) {
-      const { user, token } = response.data;
-      dispatch(setUser(user));
-      dispatch(setToken(token));
-    } else {
-      console.error(
-        'Registration failed:',
-        response.data.message || response.statusText
-      );
+      if (response.status === 201) {
+        return response.data;
+      } else {
+        const data = response.data.message
+          ? response.data.message
+          : 'Registration failed';
+        return rejectWithValue(data);
+      }
+    } catch (error) {
+      return rejectWithValue('Registration error');
     }
-  } catch (error) {
-    console.error('Registration error:', error.message);
   }
-};
+);
 
-export const loginUser = userData => async dispatch => {
-  try {
-    const response = await axios.post(`${API_URL}/users/login`, userData);
+export const loginUser = createAsyncThunk(
+  'auth/login',
+  async (userData, { rejectWithValue }) => {
+    try {
+      const response = await axios.post(`${BASE_URL}/users/login`, userData, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
 
-    if (response.status === 200) {
-      const { user, token } = response.data;
-      dispatch(setUser(user));
-      dispatch(setToken(token));
-    } else {
-      console.error(
-        'Login failed:',
-        response.data.message || response.statusText
-      );
+      if (response.status === 200) {
+        return response.data;
+      } else {
+        const data = response.data.message
+          ? response.data.message
+          : 'Login failed';
+        return rejectWithValue(data);
+      }
+    } catch (error) {
+      return rejectWithValue('Login error');
     }
-  } catch (error) {
-    console.error('Login error:', error.message);
   }
-};
+);
 
-export const logoutUser = () => dispatch => {
-  dispatch(clearUser());
-};
+export const logoutUser = createAsyncThunk('auth/logout', async () => {
+  await axios.post(`${BASE_URL}/users/logout`);
+});
 
-export const updateUserInfo = userData => async dispatch => {
-  try {
-    const response = await axios.put(`${API_URL}/users/current`, userData, {
-      headers: {
-        Authorization: `Bearer ${userData.token}`,
-      },
-    });
-
-    if (response.status === 200) {
-      const { user } = response.data;
-      dispatch(setUser(user));
-    } else {
-      console.error(
-        'Update failed:',
-        response.data.message || response.statusText
-      );
+export const fetchCurrentUser = createAsyncThunk(
+  'auth/fetchCurrentUser',
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await axios.get(`${BASE_URL}/users/current`);
+      return response.data;
+    } catch (error) {
+      return rejectWithValue('User fetch error');
     }
-  } catch (error) {
-    console.error('Update error:', error.message);
   }
+);
+
+const authActions = {
+  registerUser,
+  loginUser,
+  logoutUser,
+  fetchCurrentUser,
 };
+
+export default authActions;
