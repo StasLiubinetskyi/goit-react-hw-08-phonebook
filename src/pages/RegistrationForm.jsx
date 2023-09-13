@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { registerUser } from '../redux/auth/authActions';
+import { register } from '../redux/auth/authActions';
 import axios from 'axios';
 
 const RegistrationForm = () => {
@@ -33,7 +33,7 @@ const RegistrationForm = () => {
       const data = response.data;
 
       if (response.status === 201) {
-        dispatch(registerUser(data));
+        dispatch(register(data));
       } else {
         if (data.message) {
           console.error('Registration failed:', data.message);

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { registerUser } from '../../redux/tasks/tasksSlice';
+import { registerUser } from '../../redux/contacts/contactSlice';
 
 const ContactForm = () => {
   const dispatch = useDispatch();

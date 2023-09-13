@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateUserInfo } from '../redux/auth/authActions';
-import { selectUser } from '../redux/tasks/tasksSelectors';
+import { selectUser } from '../redux/contacts/contactSelectors';
 import axios from 'axios';
 
 const UserProfileForm = () => {
