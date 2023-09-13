@@ -1,16 +1,12 @@
 import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { updateUserInfo } from '../redux/auth/authActions';
-import { selectUser } from '../redux/contacts/contactSelectors';
+import { useDispatch } from 'react-redux';
+import { logIn } from '../../redux/auth/authActions';
 import axios from 'axios';
 
-const UserProfileForm = () => {
+const LoginForm = () => {
   const dispatch = useDispatch();
-  const user = useSelector(selectUser);
-
   const [formData, setFormData] = useState({
-    name: user.name || '',
-    email: user.email || '',
+    email: '',
     password: '',
   });
 
@@ -22,16 +18,12 @@ const UserProfileForm = () => {
   const handleSubmit = async e => {
     e.preventDefault();
     try {
-      const response = await axios.put(
-        'https://connections-api.herokuapp.com/users/current',
-        {
-          name: formData.name,
-          email: formData.email,
-        },
+      const response = await axios.post(
+        'https://connections-api.herokuapp.com/users/login',
+        formData,
         {
           headers: {
             'Content-Type': 'application/json',
-            Authorization: `Bearer ${user.token}`,
           },
         }
       );
@@ -39,29 +31,21 @@ const UserProfileForm = () => {
       const data = response.data;
 
       if (response.status === 200) {
-        dispatch(updateUserInfo(data));
+        dispatch(logIn(data));
       } else {
         if (data.message) {
-          console.error('Update failed:', data.message);
+          console.error('Login failed:', data.message);
         } else {
-          console.error('Update failed:', data);
+          console.error('Login failed:', data);
         }
       }
     } catch (error) {
-      console.error('Update error:', error);
+      console.error('Login error:', error);
     }
   };
 
   return (
     <form onSubmit={handleSubmit}>
-      <input
-        type="text"
-        name="name"
-        placeholder="Name"
-        value={formData.name}
-        onChange={handleChange}
-        required
-      />
       <input
         type="email"
         name="email"
@@ -78,9 +62,9 @@ const UserProfileForm = () => {
         onChange={handleChange}
         required
       />
-      <button type="submit">Update Profile</button>
+      <button type="submit">Login</button>
     </form>
   );
 };
 
-export default UserProfileForm;
+export default LoginForm;

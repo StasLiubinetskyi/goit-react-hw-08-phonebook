@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { register } from '../redux/auth/authActions';
+import { register } from '../../redux/auth/authActions';
 import axios from 'axios';
 
 const RegistrationForm = () => {
