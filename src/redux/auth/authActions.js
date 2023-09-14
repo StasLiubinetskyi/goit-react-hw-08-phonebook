@@ -19,6 +19,14 @@ export const register = createAsyncThunk(
       setAuthHeader(data.token);
       return data;
     } catch (error) {
+      const isDuplicate =
+        error?.response?.data?.name === 'MongoError' &&
+        error?.response?.data?.code === 11000;
+
+      if (isDuplicate) {
+        console.log('Email already exists');
+      }
+
       return thunkAPI.rejectWithValue(`REGISTER! ${error.message}`);
     }
   }
