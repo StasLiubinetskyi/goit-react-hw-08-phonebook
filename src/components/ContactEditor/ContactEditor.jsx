@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { addContact } from 'redux/contacts/contactActions';
-import css from './ContactEditor.module.css';
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
+import Grid from '@mui/material/Grid';
 
 export const ContactEditor = () => {
   const dispatch = useDispatch();
@@ -47,25 +49,38 @@ export const ContactEditor = () => {
   };
 
   return (
-    <form className={css.form} onSubmit={handleSubmit}>
-      <input
-        type="text"
-        name="name"
-        className={css.input}
-        value={name}
-        onChange={handleNameChange}
-      />
-      {nameError && <div className={css.error}>{nameError}</div>}
-      <input
-        name="tel"
-        className={css.input}
-        value={number}
-        onChange={handlePhoneChange}
-      />
-      {numberError && <div className={css.error}>{numberError}</div>}
-      <button type="submit" className={css.button}>
-        Add Contact
-      </button>
+    <form onSubmit={handleSubmit}>
+      <Grid container spacing={2}>
+        <Grid item xs={12}>
+          <TextField
+            fullWidth
+            label="Name"
+            variant="outlined"
+            name="name"
+            value={name}
+            onChange={handleNameChange}
+            error={!!nameError}
+            helperText={nameError}
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <TextField
+            fullWidth
+            label="Phone Number"
+            variant="outlined"
+            name="tel"
+            value={number}
+            onChange={handlePhoneChange}
+            error={!!numberError}
+            helperText={numberError}
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <Button type="submit" variant="contained" color="primary">
+            Add Contact
+          </Button>
+        </Grid>
+      </Grid>
     </form>
   );
 };

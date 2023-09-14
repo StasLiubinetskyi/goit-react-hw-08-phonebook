@@ -1,19 +1,25 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { Contact } from '../Contact/Contact';
 import { selectAllContacts } from 'redux/contacts/contactSelectors.js';
-import css from './ContactList.module.css';
+import { List, ListItem, ListItemText, Typography } from '@mui/material';
 
 export const ContactList = () => {
   const contacts = useSelector(selectAllContacts);
 
   return (
-    <ul className={css.list}>
+    <List>
       {contacts.map(({ id, name, number }) => (
-        <li key={id}>
-          <Contact id={id} text={`Name: ${name}, Number: ${number}`} />
-        </li>
+        <ListItem key={id} alignItems="flex-start">
+          <ListItemText
+            primary={`Name: ${name}`}
+            secondary={
+              <Typography variant="body2" color="textSecondary">
+                Number: {number}
+              </Typography>
+            }
+          />
+        </ListItem>
       ))}
-    </ul>
+    </List>
   );
 };

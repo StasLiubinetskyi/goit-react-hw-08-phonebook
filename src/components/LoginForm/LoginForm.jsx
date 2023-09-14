@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { login } from 'redux/auth/authActions';
-import css from './LoginForm.module.css';
+import { TextField, Button, Typography } from '@mui/material';
 
 export const LoginForm = () => {
   const dispatch = useDispatch();
@@ -63,33 +63,39 @@ export const LoginForm = () => {
   };
 
   return (
-    <form className={css.form} onSubmit={handleSubmit} autoComplete="off">
-      <label className={css.label}>
-        Email
-        <input
-          type="email"
-          name="email"
-          value={formData.email}
-          onChange={handleInputChange}
-        />
-        {formErrors.email && (
-          <div className={css.error}>{formErrors.email}</div>
-        )}
-      </label>
-      <label className={css.label}>
-        Password
-        <input
-          type="password"
-          name="password"
-          value={formData.password}
-          onChange={handleInputChange}
-        />
-        {formErrors.password && (
-          <div className={css.error}>{formErrors.password}</div>
-        )}
-      </label>
-      {loginError && <div className={css.error}>{loginError}</div>}
-      <button type="submit">Log In</button>
+    <form onSubmit={handleSubmit} autoComplete="off">
+      <TextField
+        label="Email"
+        type="email"
+        name="email"
+        value={formData.email}
+        onChange={handleInputChange}
+        variant="outlined"
+        fullWidth
+        margin="normal"
+        error={!!formErrors.email}
+        helperText={formErrors.email}
+      />
+      <TextField
+        label="Password"
+        type="password"
+        name="password"
+        value={formData.password}
+        onChange={handleInputChange}
+        variant="outlined"
+        fullWidth
+        margin="normal"
+        error={!!formErrors.password}
+        helperText={formErrors.password}
+      />
+      {loginError && (
+        <Typography variant="body2" color="error" gutterBottom>
+          {loginError}
+        </Typography>
+      )}
+      <Button type="submit" variant="contained" color="primary">
+        Log In
+      </Button>
     </form>
   );
 };

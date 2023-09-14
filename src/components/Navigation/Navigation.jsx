@@ -1,20 +1,34 @@
+import React from 'react';
 import { NavLink } from 'react-router-dom';
+import { Button, Box } from '@mui/material';
 import { useAuth } from 'hooks';
-import css from './Navigation.module.css';
 
 export const Navigation = () => {
   const { isLoggedIn } = useAuth();
 
   return (
-    <nav>
-      <NavLink className={css.link} to="/">
+    <Box display="flex" justifyContent="center" marginTop="16px">
+      <Button
+        variant="contained"
+        color="primary"
+        component={NavLink}
+        to="/"
+        activeClassName="Mui-selected"
+        sx={{ marginRight: '16px' }}
+      >
         Home
-      </NavLink>
+      </Button>
       {isLoggedIn && (
-        <NavLink className={css.link} to="/contact">
+        <Button
+          variant="contained"
+          color="primary"
+          component={NavLink}
+          to="/contact"
+          activeClassName="Mui-selected"
+        >
           Contact
-        </NavLink>
+        </Button>
       )}
-    </nav>
+    </Box>
   );
 };

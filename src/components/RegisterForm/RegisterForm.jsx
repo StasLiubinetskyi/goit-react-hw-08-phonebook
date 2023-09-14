@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { register } from 'redux/auth/authActions';
-import css from './RegisterForm.module.css';
+import { TextField, Button } from '@mui/material';
 
 export const RegisterForm = () => {
   const dispatch = useDispatch();
@@ -52,42 +52,46 @@ export const RegisterForm = () => {
   };
 
   return (
-    <form className={css.form} onSubmit={handleSubmit} autoComplete="off">
-      <label className={css.label}>
-        Username
-        <input
-          type="text"
-          name="name"
-          value={formData.name}
-          onChange={handleInputChange}
-        />
-        {formErrors.name && <div className={css.error}>{formErrors.name}</div>}
-      </label>
-      <label className={css.label}>
-        Email
-        <input
-          type="email"
-          name="email"
-          value={formData.email}
-          onChange={handleInputChange}
-        />
-        {formErrors.email && (
-          <div className={css.error}>{formErrors.email}</div>
-        )}
-      </label>
-      <label className={css.label}>
-        Password
-        <input
-          type="password"
-          name="password"
-          value={formData.password}
-          onChange={handleInputChange}
-        />
-        {formErrors.password && (
-          <div className={css.error}>{formErrors.password}</div>
-        )}
-      </label>
-      <button type="submit">Register</button>
+    <form onSubmit={handleSubmit} autoComplete="off">
+      <TextField
+        label="Username"
+        type="text"
+        name="name"
+        value={formData.name}
+        onChange={handleInputChange}
+        variant="outlined"
+        fullWidth
+        margin="normal"
+        error={!!formErrors.name}
+        helperText={formErrors.name}
+      />
+      <TextField
+        label="Email"
+        type="email"
+        name="email"
+        value={formData.email}
+        onChange={handleInputChange}
+        variant="outlined"
+        fullWidth
+        margin="normal"
+        error={!!formErrors.email}
+        helperText={formErrors.email}
+      />
+      <TextField
+        label="Password"
+        type="password"
+        name="password"
+        value={formData.password}
+        onChange={handleInputChange}
+        variant="outlined"
+        fullWidth
+        margin="normal"
+        error={!!formErrors.password}
+        helperText={formErrors.password}
+      />
+      <Button type="submit" variant="contained" color="primary" fullWidth>
+        Register
+      </Button>
     </form>
   );
 };
