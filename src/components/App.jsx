@@ -14,11 +14,13 @@ const ActionsPage = lazy(() => import('../pages/Actions'));
 
 export const App = () => {
   const dispatch = useDispatch();
-  const { isRefreshing } = useAuth();
+  const { isRefreshing, token } = useAuth();
 
   useEffect(() => {
-    dispatch(refreshUser());
-  }, [dispatch]);
+    if (token) {
+      dispatch(refreshUser());
+    }
+  }, [dispatch, token]);
 
   return isRefreshing ? (
     <b>Refreshing user...</b>

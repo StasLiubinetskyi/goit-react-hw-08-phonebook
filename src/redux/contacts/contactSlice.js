@@ -28,13 +28,8 @@ const handleFulfilledDeleteContact = (state, { payload }) => {
 
 const handleFulfilledEditContact = (state, { payload }) => {
   state.items = state.items.map(el =>
-    el.id === payload.id ? (el = { ...payload }) : el
+    el.id === payload.id ? { ...payload } : el
   );
-};
-
-const handleRejectedAddContact = (state, { payload }) => {
-  state.isLoading = false;
-  state.error = payload;
 };
 
 const contactsSlice = createSlice({
@@ -56,10 +51,6 @@ const contactsSlice = createSlice({
       .addMatcher(
         isAnyOf(addContact.pending, fetchContacts.pending),
         handlePendingAddContact
-      )
-      .addMatcher(
-        isAnyOf(addContact.rejected, fetchContacts.rejected),
-        handleRejectedAddContact
       );
   },
 });

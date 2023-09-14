@@ -1,8 +1,8 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Helmet } from 'react-helmet';
-import { TaskList } from 'components/ContactList/ContactList';
-import { TaskEditor } from 'components/ContactEditor/ContactEditor';
+import { ContactList } from 'components/ContactList/ContactList';
+import { ContactEditor } from 'components/ContactEditor/ContactEditor';
 import { fetchContacts } from 'redux/contacts/contactActions';
 import { selectLoading } from 'redux/contacts/contactSelectors';
 
@@ -19,9 +19,9 @@ export default function Contact() {
       <Helmet>
         <title>Your contact</title>
       </Helmet>
-      <TaskEditor />
+      <ContactEditor />
       <div>{isLoading && 'Request in progress...'}</div>
-      <TaskList />
+      <ContactList />
     </>
   );
 }

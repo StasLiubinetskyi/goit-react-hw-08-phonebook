@@ -1,5 +1,5 @@
-import { initialState } from '../initialState';
 import { createSlice, isAnyOf } from '@reduxjs/toolkit';
+import { initialState } from '../initialState';
 import { login, logout, refreshUser, register } from './authActions';
 
 const handlePending = state => {
@@ -41,6 +41,8 @@ const handleRejectedRefresh = (state, { payload }) => {
 const authSlice = createSlice({
   name: 'auth',
   initialState: initialState.auth,
+
+  reducers: {},
 
   extraReducers: builder => {
     builder

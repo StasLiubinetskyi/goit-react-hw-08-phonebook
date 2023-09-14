@@ -6,7 +6,7 @@ export const initialState = {
     },
     token: null,
     isLoggedIn: false,
-    ifRefreshing: false,
+    isRefreshing: false,
     error: null,
   },
   contacts: {

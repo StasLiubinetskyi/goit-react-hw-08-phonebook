@@ -2,7 +2,7 @@ import { useDispatch } from 'react-redux';
 import { addContact } from 'redux/contacts/contactActions';
 import css from './ContactEditor.module.css';
 
-export const TaskEditor = () => {
+export const ContactEditor = () => {
   const dispatch = useDispatch();
 
   const handleSubmit = e => {
