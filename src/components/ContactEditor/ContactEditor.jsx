@@ -1,17 +1,27 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { addContact } from 'redux/contacts/contactActions';
+import { selectAllContacts } from 'redux/contacts/contactSelectors';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
 
 export const ContactEditor = () => {
   const dispatch = useDispatch();
+  const contacts = useSelector(selectAllContacts);
 
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
   const [nameError, setNameError] = useState('');
   const [numberError, setNumberError] = useState('');
+
+  const isNameUnique = name => {
+    return !contacts.some(contact => contact.name === name);
+  };
+
+  const isNumberUnique = number => {
+    return !contacts.some(contact => contact.number === number);
+  };
 
   const handleNameChange = event => {
     setName(event.target.value);
@@ -39,10 +49,13 @@ export const ContactEditor = () => {
     e.preventDefault();
 
     if (name && number && !nameError && !numberError) {
-      dispatch(addContact({ name, number }));
-
-      setName('');
-      setNumber('');
+      if (isNameUnique(name) && isNumberUnique(number)) {
+        dispatch(addContact({ name, number }));
+        setName('');
+        setNumber('');
+      } else {
+        alert('Contact with the same name or number already exists.');
+      }
     } else {
       alert('Please correct the form errors before submitting.');
     }
